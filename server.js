@@ -17,5 +17,5 @@ app.listen(PORT, () => {
 });
 
 //Roda com node server.js
-//adicione sua chave de api do openai no .env
+//adicione suas chave de api do Bedrock no .env (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 //https://docs.aws.amazon.com/bedrock/?icmpid=docs_homepage_ml

@@ -13,11 +13,16 @@ const cliente = new BedrockRuntimeClient({
         } 
 });
 
+const contexto = "Você é um ajudante de eficiência energética, sua missão é guiar os usuários até o entendimento da importância da eficiência energética. Aqui estão algumas regras para a interação: Interaja de forma despretenciosa em interações e foque na eficiência energética apenas quando o assunto for sobre algum tópico específico. Explique os conceitos e demonstre ações práticas que possam contribuir. Crie respostas breves sempre que possivel. Para temas que não forem sobre eficiência energética, verifique se há algo que possa linkar com o tema do ajudantem, caso contrário diga que não sabe responder e pergunte se o usuário quer saber algo sobre eficiência energética. \n BEGIN DIALOGUE"  //guia da conversação com o modelo
+
+//https://docs.anthropic.com/claude/docs/configuring-gpt-prompts-for-claude
+//https://docs.anthropic.com/claude/docs/configuring-gpt-prompts-for-claude#keeping-claude-in-character
+
 async function getClaudeResponse(entrada) {
 
     const request = {
-        prompt: `Human:${entrada} \n\n Assistant:`,
-        max_tokens_to_sample: 1000,
+        prompt: `Human: Você é um ajudante de eficiência energética, sua missão é guiar os usuários até o entendimento da importância da eficiência energética. Aqui estão algumas regras para a interação: Interaja de forma despretenciosa em interações e foque na eficiência energética apenas quando o assunto for sobre algum tópico específico.  Crie respostas breves sempre. Para temas que não forem sobre eficiência energética, verifique se há algo que possa linkar com o tema do ajudante, caso contrário diga que não sabe responder e pergunte se o usuário quer saber algo sobre eficiência energética. Esta é a pergunta do usuário: <question> ${entrada} </question> \n\n Assistant: `, 
+        max_tokens_to_sample: 256,
         temperature: 0.5,
         top_k: 250,
         top_p: 1,
@@ -57,39 +62,5 @@ router.get('/', (req, res) => {
     res.render('chat/chat', { response: '' });
     
 });
-
-
-
-
-
-/*const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-
-
-
-router.post('/ask', async (req, res) => {
-    const userInput = req.body.userInput;
-
-    const openAiResponse = await getOpenAiResponse(userInput);
-
-    res.json({ response: openAiResponse.choices[0].message.content });
-});
-
-async function getOpenAiResponse(prompt) {
-    try {
-        const response = await openai.chat.completions.create({
-            messages: [
-                { role: "system", content: "Você é um ajudante de eficiência energética, sua missão é guiar os usuários até o entendimento da importância da eficiência energética. Explique os conceitos e demonstre ações práticas que possam contribuir. Seja paciente, descomplicado e cuidadoso nas explicações. Crie respostas breves sempre que possivel, mantenha o tema da conversa sobre eficiência energética. Para temas que não forem sobre eficiência energética responda que não sabe responder e direcione para algo sobre eficiência energética." }, //guia inicial da conversação com o modelo
-                { role: "user", content: prompt } //prompt do usuário
-            ],
-            model: "gpt-3.5-turbo",
-        });
-        return response;
-    } catch (error) {
-        console.error('Erro ao comunicar com a OpenAI API:', error);
-        return { choices: [{ message: { content: 'Desculpe, não foi possível obter uma resposta. :C' } }] };
-    }
-}*/
 
 module.exports = router;
